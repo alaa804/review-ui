@@ -1,4 +1,17 @@
-# Getting Started with Create React App
+# React Review App
+
+This project goes over all of the fundamentals of React including...
+
+Components
+JSX
+Props (proptypes, defaultprops, etc)
+State (Component & App Level)
+Styling
+Handling Events
+Lists & Keys
+Forms
+Context API
+
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
