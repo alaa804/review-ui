@@ -1,43 +1,48 @@
-import { createContext, useState } from "react";
-import { v4 as uuidv4 } from "uuid";
+import { createContext, useState, useEffect } from "react";
 const ReviewContext = createContext();
 
 export const ReviewProvider = ({ children }) => {
-  const [review, setReview] = useState([
-    {
-      id: "1",
-      text: "This is Review Item 1  Coming from Context",
-      rating: 10,
-    },
-    {
-      id: "2",
-      text: "This is Review Item 2  Coming from Context",
-      rating: 9,
-    },
-    {
-      id: "3",
-      text: "This is Review Item 3 Coming from Context",
-      rating: 7,
-    },
-  ]);
-
+  const [review, setReview] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [reviewEdit, setReviewEdit] = useState({
     item: {},
     edit: false,
   });
 
-  // Delete Review
-  const deleteReview = (id) => {
-    if (window.confirm("Are you Sure you want to Delete?")) {
-      setReview(review.filter((item) => item.id !== id));
-    }
+  useEffect(() => {
+    fetchReview();
+  }, []);
+
+  // Fetch Review
+  const fetchReview = async () => {
+    const res = await fetch(`/review?_sort=id&_order=desc`);
+    const data = await res.json();
+    setReview(data);
+    setIsLoading(false);
   };
 
   // Add review
-  const addReview = (item) => {
-    const id = uuidv4();
-    const newReview = { id, ...item };
-    setReview([newReview, ...review]);
+  const addReview = async (item) => {
+    const response = await fetch("/review", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(item),
+    });
+
+    const data = await response.json();
+
+    setReview([data, ...review]);
+  };
+
+  // Delete Review
+  const deleteReview = async (id) => {
+    if (window.confirm("Are you sure you want to delete?")) {
+      await fetch(`/review/${id}`, { method: "DELETE" });
+
+      setReview(review.filter((item) => item.id !== id));
+    }
   };
 
   // set item to be updated
@@ -49,9 +54,19 @@ export const ReviewProvider = ({ children }) => {
   };
 
   //   update a review
-  const updateReview = (id, updItem) => {
+  const updateReview = async (id, updItem) => {
+    const response = await fetch(`/review/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(updItem),
+    });
+
+    const data = await response.json();
+
     setReview(
-      review.map((rev) => (rev.id === id ? { ...rev, ...updItem } : rev))
+      review.map((item) => (item.id === id ? { ...item, ...data } : item))
     );
   };
   return (
@@ -59,6 +74,7 @@ export const ReviewProvider = ({ children }) => {
       value={{
         review,
         reviewEdit,
+        isLoading,
         deleteReview,
         addReview,
         editReview,
