@@ -1,5 +1,7 @@
 # React Review App
 
+This is a React project Front. It allows users to add, update and delete feedback. It uses a mock REST api with json-server.
+
 This project goes over all of the fundamentals of React including...
 
 - Components
@@ -11,7 +13,7 @@ This project goes over all of the fundamentals of React including...
 - Lists & Keys
 - Forms
 - Context API
-- json-server
+- HTTP Requests
 
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
