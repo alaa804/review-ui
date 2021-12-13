@@ -1,4 +1,4 @@
-# React Review App
+# react review App
 
 This is a React project Front. It allows users to add, update and delete review. It uses a mock REST api with json-server.
 
