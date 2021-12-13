@@ -1,6 +1,6 @@
 # React Review App
 
-This is a React project Front. It allows users to add, update and delete feedback. It uses a mock REST api with json-server.
+This is a React project Front. It allows users to add, update and delete review. It uses a mock REST api with json-server.
 
 This project goes over all of the fundamentals of React including...
 
